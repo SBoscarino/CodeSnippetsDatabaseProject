@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>View Your Snippets</title>
+    <link rel='stylesheet' href="general.css"/>
+  </head>
+  <body>
+    <h1>Let's look at all of your snippets!</h1>
+    {{#snippets}}
+    <p>{{title}}</p>
+    <hr>
+    {{/snippets}}
+    <hr>
+    <div class='links'>
+      <h4><a href='/logout'>Logout</a></h4>
+      <a href="/createASnippet"><h2>Create a Snippet</h2></a>
+    </div>
+  </body>
+</html>
