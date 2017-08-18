@@ -21,8 +21,35 @@ router.post('/createASnippet', (req, res) => {
 });
 
 
-router.get('/mySnippets', (req, res) => {
-  Snippet.find({}, (err, snippets) => {
+router.get('/searchSnippets/:searchBy?/:searchTerm?', (req, res) => {
+
+    let searchBy = req.params.searchBy;
+    let searchTerm = req.params.searchTerm;
+    let object = {};
+    if (searchBy && searchTerm) {
+      object[searchBy] = searchTerm;
+    }
+  Snippet.find(object, (err, snippets) => {
+    if(err) {
+      req.flash('there was a problem in saving a snippet.');
+    } else {
+      let data = {snippets};
+      console.log(data);
+    res.render('mySnippets', data)
+    }
+  })
+});
+
+//from search form on mySnippets
+router.post('/searchSnippetsBy/:searchBy?/:searchTerm?', (req, res) => {
+
+    let searchBy = req.params.searchBy;
+    let searchTerm = req.params.searchTerm;
+    let object = {};
+    if (searchBy && searchTerm) {
+      object[searchBy] = searchTerm;
+    }
+  Snippet.find(object, (err, snippets) => {
     if(err) {
       req.flash('there was a problem in saving a snippet.');
     } else {
@@ -39,16 +66,16 @@ router.get('/createASnippet', (req, res) => {
 
 
 
-router.get('/findASnippetbyTitle', (req, res) => {
-let findByTitle = Snippet.find(findSnippetByTitle, searchQuery);
- console.log(JSON.stringify(findByTitle));
-
-function findSnippetByTitle (findByTitle) {
-  if (`findByTitle.${searchQuery}` === `req.body.${searchQuery}`) {
-    let returnedSnippet = {snippets};
-    res.render('mySnippets', returnedSnippet);
-  }
-  }
-})
+// router.get('/findASnippetbyTitle', (req, res) => {
+// let findByTitle = Snippet.find(findSnippetByTitle, searchQuery);
+//  console.log(JSON.stringify(findByTitle));
+//
+// function findSnippetByTitle (findByTitle) {
+//   if (`findByTitle.${searchQuery}` === `req.body.${searchQuery}`) {
+//     let returnedSnippet = {snippets};
+//     res.render('mySnippets', returnedSnippet);
+//   }
+//   }
+// })
 
 module.exports = router;
